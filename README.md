@@ -41,47 +41,9 @@ PowerPilot is a hackathon-grade full-stack application built for energy distribu
 ---
 
 ## 2. Architecture
+<img width="2631" height="1414" alt="diagram-export-3-19-2026-10_36_07-PM" src="https://github.com/user-attachments/assets/fd958a89-82a2-40a4-855d-69c8b4a295ee" />
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                     CLIENT TIER                                  │
-│                                                                  │
-│  ┌──────────────────┐         ┌──────────────────────────────┐  │
-│  │  React Native    │         │   Web Admin Portal           │  │
-│  │  Mobile App      │         │   React + Vite               │  │
-│  │  (Expo SDK 55)   │         │   (served at /admin)         │  │
-│  └────────┬─────────┘         └──────────────┬───────────────┘  │
-└───────────┼──────────────────────────────────┼──────────────────┘
-            │ HTTP REST + WebSocket             │ HTTP REST
-            ▼                                  ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    BACKEND TIER                                  │
-│                                                                  │
-│  Node.js / Express  (port 4000)                                 │
-│  ┌──────────────┐ ┌────────────────┐ ┌───────────────────────┐  │
-│  │  REST API    │ │  WebSocket /ws │ │  Static File Server   │  │
-│  │  13 Routers  │ │  Live Readings │ │  mobile/dist          │  │
-│  │              │ │  Device Events │ │  web-admin/dist       │  │
-│  └──────────────┘ └────────────────┘ └───────────────────────┘  │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │  Services: DeviceBroker | SmartNudgeEngine               │   │
-│  │           TariffOptimizer | IntegrationHub               │   │
-│  │           MockDataService | PersistService               │   │
-│  └──────────────────────────────────────────────────────────┘   │
-└───────────────────────────┬─────────────────────────────────────┘
-                            │ HTTP (proxy)
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                   AI ENGINE TIER                                 │
-│                                                                  │
-│  Python / Flask  (port 5000)                                    │
-│  ┌────────────────┐ ┌──────────────┐ ┌──────────────────────┐  │
-│  │ Voice Assistant│ │   Chatbot    │ │  Optimizer / Stats   │  │
-│  │ TF-IDF + SVM   │ │ TF-IDF + RF  │ │  GBM / IsoForest     │  │
-│  └────────────────┘ └──────────────┘ └──────────────────────┘  │
-│  6 scikit-learn models (.joblib) — 11.8 MB total                │
-└─────────────────────────────────────────────────────────────────┘
-```
+
 
 **Communication:**
 - Mobile ↔ Backend: `HTTP REST` + `WebSocket` at `ws://host:4000/ws`
@@ -338,7 +300,6 @@ Generates realistic mock smart meter readings:
 #### `LoginScreen.js`
 - Email, BP number, and password login
 - Persists `userId`, `userName`, `bpNumber` to `AsyncStorage`
-- Supports demo login
 
 #### `DashboardScreen.js` ⭐ (Main Hub)
 The largest screen (1,081 lines). Features:
