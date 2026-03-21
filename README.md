@@ -301,8 +301,13 @@ Generates realistic mock smart meter readings:
 #### `LoginScreen.js`
 - Email, BP number, and password login
 - Persists `userId`, `userName`, `bpNumber` to `AsyncStorage`
+![WhatsApp Image 2026-03-22 at 12 15 09 AM (1)](https://github.com/user-attachments/assets/3ace2be6-b167-4f67-9368-77e82f3f9d35)
+
 
 #### `DashboardScreen.js` ⭐ (Main Hub)
+![WhatsApp Image 2026-03-22 at 12 14 59 AM](https://github.com/user-attachments/assets/0e7ee495-92a6-4760-b7d6-f9343c8131ec)
+![WhatsApp Image 2026-03-22 at 12 15 08 AM](https://github.com/user-attachments/assets/0bd4408c-0529-4baf-a056-0488f509417b)
+
 The largest screen (1,081 lines). Features:
 - **Live KPI cards** — real-time wattage, voltage, daily kWh, cost, CO2
 - **Sparkline chart** — last 20 meter readings rendered as bar sparklines
