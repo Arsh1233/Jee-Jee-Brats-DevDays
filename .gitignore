@@ -1,0 +1,75 @@
+# ── Node / npm ──────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+.pnpm-debug.log*
+
+# ── Windows / Expo sandbox cache ─────────────
+mobile/.localapp/
+mobile/AppData/
+.localapp/
+AppData/
+
+
+
+# ── Build outputs ────────────────────────────
+dist/
+build/
+.next/
+out/
+web-build/
+
+# ── Environment / secrets ────────────────────
+.env
+.env.local
+.env.*.local
+*.pem
+
+# ── Python ───────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# ── AI Models / ML binaries ──────────────────
+*.pkl
+*.h5
+*.model
+*.joblib
+*.npy
+*.npz
+.ipynb_checkpoints/
+
+# ── Expo / React Native ──────────────────────
+.expo/
+.expo-shared/
+*.jks
+*.p8
+*.p12
+*.mobileprovision
+ios/
+android/
+
+# ── OS files ─────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editor ───────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*~
+
+# ── Logs ─────────────────────────────────────
+logs/
+*.log
+
+# ── Firebase ─────────────────────────────────
+.firebase/
+firebase-debug.log
+
+# ── Coverage ─────────────────────────────────
+coverage/

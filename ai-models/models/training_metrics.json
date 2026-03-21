@@ -1,0 +1,251 @@
+{
+  "anomaly_detector": {
+    "total_samples": 120000,
+    "anomalies_detected": 5996,
+    "anomaly_rate": 0.05,
+    "precision": 0.1594,
+    "recall": 0.158,
+    "f1_score": 0.1587
+  },
+  "consumption_predictor": {
+    "rmse": 31.0331,
+    "mae": 6.1267,
+    "r2_score": 0.802,
+    "test_samples": 24000,
+    "train_samples": 96000,
+    "top_features": [
+      {
+        "name": "avg_hourly_kwh",
+        "importance": 0.8719
+      },
+      {
+        "name": "prev_hour_kwh",
+        "importance": 0.072
+      },
+      {
+        "name": "hour_cos",
+        "importance": 0.0169
+      },
+      {
+        "name": "conn_type",
+        "importance": 0.0129
+      },
+      {
+        "name": "hour",
+        "importance": 0.0085
+      }
+    ]
+  },
+  "user_segmenter": {
+    "n_clusters": 5,
+    "total_users": 10000,
+    "inertia": 8763.93,
+    "clusters": {
+      "low_usage": {
+        "count": 3317,
+        "avg_consumption": 3.77,
+        "avg_peak_ratio": 0.818,
+        "avg_std_dev": 3.348
+      },
+      "moderate": {
+        "count": 858,
+        "avg_consumption": 161.73,
+        "avg_peak_ratio": 1.029,
+        "avg_std_dev": 91.941
+      },
+      "high_usage": {
+        "count": 3349,
+        "avg_consumption": 0.6,
+        "avg_peak_ratio": 1.782,
+        "avg_std_dev": 0.443
+      },
+      "peak_heavy": {
+        "count": 1485,
+        "avg_consumption": 100.37,
+        "avg_peak_ratio": 1.022,
+        "avg_std_dev": 30.886
+      },
+      "night_owl": {
+        "count": 991,
+        "avg_consumption": 127.74,
+        "avg_peak_ratio": 1.021,
+        "avg_std_dev": 19.074
+      }
+    }
+  },
+  "intent_classifier": {
+    "accuracy": 0.9994,
+    "train_samples": 6400,
+    "test_samples": 1600,
+    "n_intents": 10,
+    "per_intent": {
+      "general_query": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      },
+      "check_tariff": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      },
+      "check_usage": {
+        "precision": 0.9938,
+        "recall": 1.0,
+        "f1": 0.9969,
+        "support": 160
+      },
+      "get_tips": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      },
+      "compare_usage": {
+        "precision": 1.0,
+        "recall": 0.9938,
+        "f1": 0.9969,
+        "support": 160
+      },
+      "greet": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      },
+      "control_device": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      },
+      "file_complaint": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      },
+      "goodbye": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      },
+      "check_bill": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      }
+    },
+    "macro_f1": 0.9994,
+    "weighted_f1": 0.9994
+  },
+  "query_classifier": {
+    "accuracy": 0.94,
+    "train_samples": 2400,
+    "test_samples": 600,
+    "n_query_types": 11,
+    "per_type": {
+      "bill_analysis": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 55
+      },
+      "history": {
+        "precision": 0.8852,
+        "recall": 1.0,
+        "f1": 0.9391,
+        "support": 54
+      },
+      "optimization": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 55
+      },
+      "usage_period": {
+        "precision": 1.0,
+        "recall": 0.9818,
+        "f1": 0.9908,
+        "support": 55
+      },
+      "comparison": {
+        "precision": 1.0,
+        "recall": 0.8333,
+        "f1": 0.9091,
+        "support": 54
+      },
+      "forecast": {
+        "precision": 1.0,
+        "recall": 0.8889,
+        "f1": 0.9412,
+        "support": 54
+      },
+      "peak_analysis": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 55
+      },
+      "complaint": {
+        "precision": 0.6548,
+        "recall": 1.0,
+        "f1": 0.7914,
+        "support": 55
+      },
+      "tariff_info": {
+        "precision": 1.0,
+        "recall": 0.9818,
+        "f1": 0.9908,
+        "support": 55
+      },
+      "general": {
+        "precision": 1.0,
+        "recall": 0.7778,
+        "f1": 0.875,
+        "support": 54
+      },
+      "live_status": {
+        "precision": 1.0,
+        "recall": 0.8704,
+        "f1": 0.9307,
+        "support": 54
+      }
+    },
+    "macro_f1": 0.9426,
+    "weighted_f1": 0.9428
+  },
+  "demand_forecaster": {
+    "rmse": 3.7047,
+    "mae": 2.9322,
+    "r2_score": 0.9839,
+    "train_samples": 7008,
+    "test_samples": 1752,
+    "top_features": [
+      {
+        "name": "prev_hour_demand",
+        "importance": 0.856
+      },
+      {
+        "name": "hour_cos",
+        "importance": 0.081
+      },
+      {
+        "name": "hour",
+        "importance": 0.0367
+      },
+      {
+        "name": "temperature",
+        "importance": 0.0185
+      },
+      {
+        "name": "hour_sin",
+        "importance": 0.0043
+      }
+    ]
+  }
+}

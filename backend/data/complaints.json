@@ -1,0 +1,80 @@
+[
+  {
+    "id": 6,
+    "userId": "USR000001",
+    "bpNumber": "BP-1000001",
+    "name": "User",
+    "category": "Power Cut",
+    "subject": "N",
+    "description": "Hh",
+    "contact": "",
+    "status": "Closed",
+    "createdAt": "2026-03-21T17:32:59.632Z",
+    "updatedAt": "2026-03-21T17:57:43.391Z"
+  },
+  {
+    "id": 5,
+    "userId": "USR000001",
+    "bpNumber": "BP-1000001",
+    "name": "User",
+    "category": "Power Cut",
+    "subject": "No power ",
+    "description": "It's been 5 hours ",
+    "contact": "388393837",
+    "status": "Pending",
+    "createdAt": "2026-03-21T17:32:45.987Z",
+    "updatedAt": "2026-03-21T17:32:45.987Z"
+  },
+  {
+    "id": 4,
+    "userId": "USR000001",
+    "bpNumber": "BP-Unknown",
+    "name": "Rohit Gupta",
+    "category": "General",
+    "subject": "Voice complaint: File complain why cut off",
+    "description": "File complain why cut off",
+    "contact": "",
+    "status": "In Progress",
+    "createdAt": "2026-03-12T06:50:22.671Z",
+    "updatedAt": "2026-03-14T05:04:40.915Z"
+  },
+  {
+    "id": 3,
+    "userId": "USR000001",
+    "bpNumber": "BP-Unknown",
+    "name": "Rohit Gupta",
+    "category": "General",
+    "subject": "Voice complaint: I want to file a complaint",
+    "description": "I want to file a complaint",
+    "contact": "",
+    "status": "Pending",
+    "createdAt": "2026-03-12T06:49:40.059Z",
+    "updatedAt": "2026-03-12T06:49:40.059Z"
+  },
+  {
+    "id": 1,
+    "userId": "USR000001",
+    "bpNumber": "BP-1000001",
+    "name": "Demo User",
+    "category": "Billing",
+    "subject": "Incorrect bill amount for January",
+    "description": "My bill shows ₹3,200 but my actual consumption was much lower this month.",
+    "contact": "user1@powerpilot.in",
+    "status": "In Progress",
+    "createdAt": "2026-03-09T06:48:08.298Z",
+    "updatedAt": "2026-03-11T06:48:08.298Z"
+  },
+  {
+    "id": 2,
+    "userId": "USR000001",
+    "bpNumber": "BP-1000001",
+    "name": "Demo User",
+    "category": "Power Cut",
+    "subject": "Frequent power cuts in our area",
+    "description": "We are experiencing power cuts almost daily between 6 PM and 9 PM for the past week.",
+    "contact": "user1@powerpilot.in",
+    "status": "Pending",
+    "createdAt": "2026-03-05T06:48:08.298Z",
+    "updatedAt": "2026-03-05T06:48:08.298Z"
+  }
+]

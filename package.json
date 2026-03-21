@@ -1,0 +1,15 @@
+{
+  "name": "powerpilot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PowerPilot — Smart Metering Super App PoC",
+  "workspaces": [
+    "backend",
+    "web-admin"
+  ],
+  "scripts": {
+    "backend": "npm -w backend run dev",
+    "web": "npm -w web-admin run dev",
+    "dev": "concurrently \"npm run backend\" \"npm run web\""
+  }
+}
