@@ -41,7 +41,8 @@ PowerPilot is a hackathon-grade full-stack application built for energy distribu
 ---
 
 ## 2. Architecture
-<img width="2631" height="1414" alt="diagram-export-3-19-2026-10_36_07-PM" src="https://github.com/user-attachments/assets/fd958a89-82a2-40a4-855d-69c8b4a295ee" />
+<img width="3840" height="2160" alt="Team Details Team name Team leader name Problem Statement" src="https://github.com/user-attachments/assets/fe6ca8b3-f7ad-470a-8fd1-125624b58b97" />
+
 
 
 
