@@ -21,7 +21,8 @@
 
 | Login | Dashboard | Home Menu |
 |-------|-----------|-----------|
-| <img src="./docs/screenshots/login.png" width="200"/> | <img src="./docs/screenshots/dashboard.png" width="200"/> | <img src="./docs/screenshots/home.png" width="200"/> |
+| <img src="![WhatsApp Image 2026-03-22 at 10 48 13 AM](https://github.com/user-attachments/assets/72df4de5-b96f-42e2-9976-a1222d607ee5)
+" width="200"/> | <img src="./docs/screenshots/dashboard.png" width="200"/> | <img src="./docs/screenshots/home.png" width="200"/> |
 
 | Live Devices | Add Device |
 |--------------|------------|
