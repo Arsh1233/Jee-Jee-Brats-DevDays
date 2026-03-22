@@ -1,29 +1,41 @@
 /**
  * AI Engine Proxy Routes
  * Forwards /api/ai/* requests from Node.js backend to the Python Flask AI API server.
+ * Supports both local HTTP (http://localhost:5000) and remote HTTPS (https://render.onrender.com).
  */
 
 const express = require('express');
 const http = require('http');
+const https = require('https');
 const router = express.Router();
 
-const AI_API_HOST = process.env.AI_API_HOST || 'localhost';
-const AI_API_PORT = process.env.AI_API_PORT || 5000;
+// AI_API_HOST can be a full URL (https://powerpilot-ai-yoj0.onrender.com)
+// or just a hostname (localhost). We parse it so http/https both work correctly.
+const AI_API_HOST_RAW = process.env.AI_API_HOST || 'http://localhost:5000';
+const AI_BASE_URL = AI_API_HOST_RAW.startsWith('http')
+    ? AI_API_HOST_RAW.replace(/\/$/, '')          // full URL — strip trailing slash
+    : `http://${AI_API_HOST_RAW}:${process.env.AI_API_PORT || 5000}`;  // bare hostname
+
+const parsedUrl = new URL(AI_BASE_URL);
+const isHttps = parsedUrl.protocol === 'https:';
+const agent = isHttps ? https : http;
+const AI_HOSTNAME = parsedUrl.hostname;
+const AI_PORT = parsedUrl.port || (isHttps ? 443 : 80);
 
 /**
  * Proxy a request to the Python AI API server.
  */
 function proxyToAI(req, res, method, path, body = null) {
     const options = {
-        hostname: AI_API_HOST,
-        port: AI_API_PORT,
+        hostname: AI_HOSTNAME,
+        port: AI_PORT,
         path: `/api/ai${path}`,
         method,
         headers: { 'Content-Type': 'application/json' },
-        timeout: 15000,
+        timeout: 60000,   // 60s — Render free tier can take ~50s to wake up
     };
 
-    const proxyReq = http.request(options, (proxyRes) => {
+    const proxyReq = agent.request(options, (proxyRes) => {
         let data = '';
         proxyRes.on('data', chunk => data += chunk);
         proxyRes.on('end', () => {
@@ -36,17 +48,17 @@ function proxyToAI(req, res, method, path, body = null) {
     });
 
     proxyReq.on('error', (err) => {
-        console.error(`[AI Proxy] Error connecting to AI server: ${err.message}`);
+        console.error(`[AI Proxy] Error connecting to AI server at ${AI_BASE_URL}: ${err.message}`);
         res.status(503).json({
             error: 'AI Engine unavailable',
-            message: 'The Python AI API server is not running. Start it with: python ai-models/api_server.py',
+            message: 'The Python AI API server is not reachable.',
             details: err.message,
         });
     });
 
     proxyReq.on('timeout', () => {
         proxyReq.destroy();
-        res.status(504).json({ error: 'AI Engine timeout' });
+        res.status(504).json({ error: 'AI Engine timeout — it may be warming up, please retry in 30s' });
     });
 
     if (body) {
@@ -69,17 +81,17 @@ router.post('/optimizer/analyze', (req, res) => proxyToAI(req, res, 'POST', '/op
 // ── Transcription (file upload — raw pipe to AI server) ─────────
 router.post('/transcribe', (req, res) => {
     const options = {
-        hostname: AI_API_HOST,
-        port: AI_API_PORT,
+        hostname: AI_HOSTNAME,
+        port: AI_PORT,
         path: '/api/ai/transcribe',
         method: 'POST',
         headers: {
             ...req.headers,
-            host: `${AI_API_HOST}:${AI_API_PORT}`,
+            host: AI_HOSTNAME,
         },
         timeout: 30000,
     };
-    const proxyReq = http.request(options, (proxyRes) => {
+    const proxyReq = agent.request(options, (proxyRes) => {
         let data = '';
         proxyRes.on('data', chunk => data += chunk);
         proxyRes.on('end', () => {
