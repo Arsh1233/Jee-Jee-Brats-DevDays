@@ -21,8 +21,7 @@
 
 | Login | Dashboard | Home Menu |
 |-------|-----------|-----------|
-| ![WhatsApp Image 2026-03-22 at 10 48 13 AM](https://github.com/user-attachments/assets/72df4de5-b96f-42e2-9976-a1222d607ee5) | ![WhatsApp Image 2026-03-22 at 10 48 14 AM](https://github.com/user-attachments/assets/099b4fce-6487-4198-a1bc-270d754ef956)
- | ![WhatsApp Image 2026-03-22 at 10 48 40 AM (1)](https://github.com/user-attachments/assets/267d8735-7414-4c26-8c51-0cb0601a87bd)|
+| ![WhatsApp Image 2026-03-22 at 10 48 13 AM](https://github.com/user-attachments/assets/72df4de5-b96f-42e2-9976-a1222d607ee5) | ![WhatsApp Image 2026-03-22 at 10 48 14 AM](https://github.com/user-attachments/assets/099b4fce-6487-4198-a1bc-270d754ef956) | ![WhatsApp Image 2026-03-22 at 10 48 40 AM (1)](https://github.com/user-attachments/assets/267d8735-7414-4c26-8c51-0cb0601a87bd)|
 
 | Live Devices | Add Device |
 |--------------|------------|
