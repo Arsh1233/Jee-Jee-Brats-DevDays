@@ -2,18 +2,6 @@
 
 > An AI-powered full-stack energy management platform for smart homes and DISCOMs. PowerPilot combines a **React Native mobile app**, a **Node.js backend**, a **Python Flask ML engine**, and a **React web admin portal** into one unified system.
 
----
-
-## 🚀 Live Deployments
-
-| Service | URL |
-|---------|-----|
-| 📱 Mobile App | [powerpilot-mobile.netlify.app](https://powerpilot-mobile.netlify.app) |
-| 🖥️ Web Admin | [monumental-meerkat-75e6a3.netlify.app](https://monumental-meerkat-75e6a3.netlify.app) |
-| 🔧 Backend API | [powerpilot-backend.netlify.app](https://powerpilot-backend.netlify.app) |
-| 🤖 AI Engine | [powerpilot-ai-yoj0.onrender.com](https://powerpilot-ai-yoj0.onrender.com) |
-
----
 
 ## 📱 Mobile App — Screenshots
 
