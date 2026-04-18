@@ -234,4 +234,4 @@ See [`ai-models/MODEL_STATS.md`](ai-models/MODEL_STATS.md) for full training met
 
 ---
 
-*Built for INSTINCTS 4.0 Hackathon — Team Hesignbugs #403*
+*Built for GitHub Dev Days - Team Jee Jee Brats*
