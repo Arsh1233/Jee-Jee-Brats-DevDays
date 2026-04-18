@@ -6,7 +6,7 @@
   "workspaces": [
     "backend",
     "web-admin"
-  ],
+],
   "scripts": {
     "backend": "npm -w backend run dev",
     "web": "npm -w web-admin run dev",
