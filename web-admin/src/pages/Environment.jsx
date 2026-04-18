@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import BACKEND_URL from '../config';
 
 const fmt = (n) => Number(n ?? 0).toLocaleString();
 const fmtK = (n) => n >= 1000000 ? `${(n / 1000000).toFixed(1)}M` : n >= 1000 ? `${(n / 1000).toFixed(0)}K` : `${n}`;
@@ -7,7 +8,7 @@ export default function EnvironmentPage() {
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        fetch('/api/admin/environment').then(r => r.json()).then(setData).catch(console.error);
+        fetch(`${BACKEND_URL}/api/admin/environment`).then(r => r.json()).then(setData).catch(console.error);
     }, []);
 
     if (!data) return <div className="page-header"><h2>Loading…</h2></div>;

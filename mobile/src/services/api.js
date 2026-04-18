@@ -1,16 +1,17 @@
 import axios from 'axios';
 import { Platform } from 'react-native';
 
-// â”€â”€â”€ Backend URL config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// LOCAL (same WiFi): keep USE_TUNNEL = false
-// TUNNEL (share with anyone): set USE_TUNNEL = true and paste your ngrok URL
+// ── Backend URL config ────────────────────────────────────────────
+// For native (Android/iOS): use tunnel or local IP
+// For web (Netlify): use the deployed backend URL
 const USE_TUNNEL = false;
-const NGROK_URL = 'https://powerpilot-api.loca.lt'; // localtunnel public URL
-const LOCAL_URL = 'http://192.168.29.209:4000';
-// ──────────────────────────────────────────────────────────────────
+const NGROK_URL = 'https://powerpilot-api.loca.lt';
+const LOCAL_URL = 'http://10.52.93.224:4000';
+const PROD_URL = 'https://powerpilot-backend.netlify.app';
+// ─────────────────────────────────────────────────────────────────
 
 export const API_BASE = Platform.OS === 'web'
-    ? (window?.location?.port !== '4000' ? 'http://localhost:4000' : '')
+    ? PROD_URL  // Always use the deployed backend when running as web app
     : (USE_TUNNEL ? NGROK_URL : LOCAL_URL);
 
 const api = axios.create({ baseURL: API_BASE, timeout: 10000 });
@@ -67,6 +68,11 @@ export const fetchDeviceStatus = (deviceId, userId) => api.get(`/api/devices/${d
 
 // ── Flyers ────────────────────────────────────────────────────────────────────
 export const fetchFlyers = () => api.get('/api/flyers').then(r => r.data);
+
+// ── Arduino Hardware ────────────────────────────────────────────────────────
+export const listArduinoPorts = async () => [];
+export const testArduinoConnection = async () => ({ success: false, error: 'Not implemented' });
+export const sendArduinoCommand = async () => ({ success: false });
 
 // ── AI Engine ─────────────────────────────────────────────────────────────────
 export const sendChatMessage = (message, session_id = 'mobile') =>

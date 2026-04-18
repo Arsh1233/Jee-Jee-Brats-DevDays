@@ -54,5 +54,33 @@
     "linkUrl": "https://www.google.com/aclk?sa=L&pf=1&ai=DChsSEwis4KPJzo-TAxXtpmYCHVP5KkgYACICCAEQABoCc20&co=1&ase=2&gclid=CjwKCAiAtq_NBhA_EiwA78nNWNBwKxboaI3KJnz8Eje1U9IElILvCuvekRPrRxUJGC24VGCE89FWfRoCS7oQAvD_BwE&cid=CAASugHkaPM1-YeqR2KQfAXxZNk2XxguVR-QnJ2ePHEL6GPMjvGRJUxqWzk5lvsA3xunPMbS4BKh-qgE7pJA65cP5WyJxYyJtdmYJPCRE_c0hcZE-hT-lr4ybo037XjRcruzyOtDWvjT205twZlDsSVrnjYADKk89W7knOqlCuNWz3hw243FXhKoUDdPRx5oikYB8hQPTda8kEJ5sy03_nFeE8Il5kY_JLvzQf5T5JOWOHD-a7CHY_PN5fhHJ4E&cce=2&category=acrcp_v1_32&sig=AOD64_2osRKwWGcOEQbbP5O25ygK1lNzfg&q&nis=4&adurl=https://www.amazon.in/?%26tag%3Dgooghydrabk1-21%26ref%3Dpd_sl_5szpgfto9i_e%26adgrpid%3D155259813593%26hvpone%3D%26hvptwo%3D%26hvadid%3D674893540034%26hvpos%3D%26hvnetw%3Dg%26hvrand%3D11557295280919784581%26hvqmt%3De%26hvdev%3Dc%26hvdvcmdl%3D%26hvlocint%3D%26hvlocphy%3D9146869%26hvtargid%3Dkwd-64107830%26hydadcr%3D14452_2316413%26gad_source%3D1&ved=2ahUKEwjiw53Jzo-TAxVH-DgGHRoREsMQ0Qx6BAgWEAE",
     "active": true,
     "order": 4
+  },
+  {
+    "id": "f5",
+    "title": "Register to GitHub Dev Days",
+    "subtitle": "",
+    "body": "",
+    "badge": "",
+    "bgColor": "#0d47a1",
+    "accentColor": "#1976d2",
+    "textColor": "#ffffff",
+    "imageUrl": "/uploads/flyer_1776493889468.png",
+    "linkUrl": "https://devdays.devsync.club",
+    "active": true,
+    "order": 5
+  },
+  {
+    "id": "f6",
+    "title": "Tap to connect",
+    "subtitle": "",
+    "body": "",
+    "badge": "",
+    "bgColor": "#0d47a1",
+    "accentColor": "#1976d2",
+    "textColor": "#ffffff",
+    "imageUrl": "/uploads/flyer_1776494113214.png",
+    "linkUrl": "https://www.linkedin.com/in/niral-verma/",
+    "active": false,
+    "order": 6
   }
 ]

@@ -496,6 +496,7 @@ function AnimatedIconCard({ item }) {
 import {
     fetchCurrentMeter, fetchMeterHistory, fetchCurrentTariff, fetchPowerCutAlerts, fetchEnvironment, fetchFlyers,
     sendChatMessage, sendVoiceCommand, transcribeAudio, API_BASE, submitComplaint, fetchSmartNudges,
+    fetchNotifications,
 } from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MenuButton from '../components/MenuButton';
@@ -760,12 +761,24 @@ export default function DashboardScreen({ navigation }) {
     const [userName, setUserName] = useState('');
     const [flyers, setFlyers] = useState([]);
     const [nudges, setNudges] = useState([]);
+    const [unreadCount, setUnreadCount] = useState(0);
+    const bellBadge = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
         loadData();
         AsyncStorage.getItem('userName').then(n => { if (n) setUserName(n); });
         fetchFlyers().then(setFlyers).catch(() => { });
         fetchSmartNudges().then(d => setNudges(d?.nudges || [])).catch(() => {});
+        // Fetch unread notification count
+        fetchNotifications()
+            .then(data => {
+                const count = Array.isArray(data) ? data.filter(n => !n.read).length : 0;
+                setUnreadCount(count);
+                if (count > 0) {
+                    Animated.spring(bellBadge, { toValue: 1, tension: 200, friction: 5, useNativeDriver: true }).start();
+                }
+            })
+            .catch(() => {});
         const interval = setInterval(async () => {
             try {
                 const [meter, hist] = await Promise.all([
@@ -833,6 +846,33 @@ export default function DashboardScreen({ navigation }) {
                         <Text style={styles.headerTitle}>PowerPilot</Text>
                     </View>
                     <View style={{ alignItems: 'flex-end', gap: 6 }}>
+                        {/* Notification bell */}
+                        <TouchableOpacity
+                            onPress={() => {
+                                setUnreadCount(0);
+                                bellBadge.setValue(0);
+                                navigation?.navigate('Notifications');
+                            }}
+                            activeOpacity={0.75}
+                            style={styles.bellBtn}
+                            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                        >
+                            <Ionicons
+                                name={unreadCount > 0 ? 'notifications' : 'notifications-outline'}
+                                size={24}
+                                color="#fff"
+                            />
+                            {unreadCount > 0 && (
+                                <Animated.View style={[
+                                    styles.bellBadge,
+                                    { transform: [{ scale: bellBadge }] },
+                                ]}>
+                                    <Text style={styles.bellBadgeText}>
+                                        {unreadCount > 9 ? '9+' : unreadCount}
+                                    </Text>
+                                </Animated.View>
+                            )}
+                        </TouchableOpacity>
                         <View style={styles.statusPill}>
                             <PulsingDot />
                             <Text style={styles.statusText}>{t.live}</Text>
@@ -1077,6 +1117,22 @@ const styles = StyleSheet.create({
     cancelText: { color: C.textSec, fontSize: 14, fontWeight: '700' },
     saveBtn: { flex: 1, paddingVertical: 14, borderRadius: 12, backgroundColor: C.blue, alignItems: 'center' },
     saveText: { color: '#fff', fontSize: 14, fontWeight: '700' },
+
+    // Notification bell
+    bellBtn: {
+        width: 38, height: 38, borderRadius: 12,
+        backgroundColor: 'rgba(255,255,255,0.15)',
+        alignItems: 'center', justifyContent: 'center',
+    },
+    bellBadge: {
+        position: 'absolute', top: -4, right: -4,
+        minWidth: 18, height: 18, borderRadius: 9,
+        backgroundColor: '#ef4444',
+        alignItems: 'center', justifyContent: 'center',
+        paddingHorizontal: 4,
+        borderWidth: 1.5, borderColor: C.blueDark,
+    },
+    bellBadgeText: { color: '#fff', fontSize: 9, fontWeight: '900', lineHeight: 12 },
 });
 
 

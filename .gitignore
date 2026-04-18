@@ -73,3 +73,6 @@ firebase-debug.log
 
 # ── Coverage ─────────────────────────────────
 coverage/
+
+# Local Netlify folder
+.netlify

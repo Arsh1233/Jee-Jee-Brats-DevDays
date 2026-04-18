@@ -60,13 +60,41 @@ async function shellyStatus(device) {
 async function httpToggle(device) {
     const state = !device.isOn;
     try {
-        const url = state ? device.onUrl : device.offUrl;
+        // Support single toggleUrl (ESP8266-style) or separate onUrl/offUrl
+        let url = device.toggleUrl
+            ? device.toggleUrl
+            : (state ? device.onUrl : device.offUrl);
         if (!url) throw new Error('No URL configured');
-        await fetch(url, { signal: AbortSignal.timeout(4000) });
-    } catch {
+
+        // Ensure valid URL prefix
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            url = 'http://' + url;
+        }
+
+        const res = await fetch(url, { signal: AbortSignal.timeout(4000) });
+        const body = await res.text();
+        // Hall Light returns "ON" or "OFF" from /toggle
+        if (body.trim() === 'ON') return { isOn: true, wattage: simWattage(device.type, true) };
+        if (body.trim() === 'OFF') return { isOn: false, wattage: simWattage(device.type, false) };
+    } catch (e) {
+        console.warn(`[HTTP Toggle] Failed for ${device.name}:`, e.message);
         // Device unreachable or no URL — fall back to simulated
     }
     return { isOn: state, wattage: simWattage(device.type, state) };
+}
+
+async function httpStatus(device) {
+    try {
+        let url = device.statusUrl;
+        if (!url) return { isOn: device.isOn, wattage: device.wattage };
+        if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'http://' + url;
+        const res = await fetch(url, { signal: AbortSignal.timeout(3000) });
+        const body = await res.text();
+        const isOn = body.trim() === 'ON';
+        return { isOn, wattage: simWattage(device.type, isOn) };
+    } catch {
+        return { isOn: device.isOn, wattage: device.wattage };
+    }
 }
 
 async function kasaToggle(device) {
@@ -157,6 +185,8 @@ function addDevice(userId, opts) {
         ip: opts.ip ?? null,
         onUrl: opts.onUrl ?? null,
         offUrl: opts.offUrl ?? null,
+        toggleUrl: opts.toggleUrl ?? null,
+        statusUrl: opts.statusUrl ?? null,
         deviceId: opts.deviceId ?? null,
         localKey: opts.localKey ?? null,
         isOn: opts.isOn ?? false,
@@ -180,7 +210,36 @@ async function toggleDevice(userId, deviceId) {
     const device = devs.get(deviceId);
     if (!device) throw new Error('Device not found');
 
+    // Toggle logic: just flip the current known state
+    return await setDeviceState(userId, deviceId, !device.isOn);
+}
+
+async function setDeviceState(userId, deviceId, targetState) {
+    const devs = getUserDevices(userId);
+    const device = devs.get(deviceId);
+    if (!device) throw new Error('Device not found');
+
     let result;
+    
+    // For HTTP devices with statusUrl, verify actual state first to stay in sync
+    if (device.protocol === 'http' && device.statusUrl) {
+        try {
+            const current = await httpStatus(device);
+            device.isOn = current.isOn; // Sync internal state
+            device.wattage = current.wattage;
+            
+            // If already in target state, just return
+            if (device.isOn === targetState) {
+                console.log(`[Sync Check] ${device.name} already ${targetState ? 'ON' : 'OFF'}, skipping hardware action`);
+                return { ...device };
+            }
+        } catch (e) {
+            console.warn(`[Sync Check] Failed for ${device.name}:`, e.message);
+        }
+    }
+
+    console.log(`[Device Control] Setting ${device.name} to ${targetState ? 'ON' : 'OFF'}...`);
+
     switch (device.protocol) {
         case 'shelly': result = await shellyToggle(device); break;
         case 'http': result = await httpToggle(device); break;
@@ -190,7 +249,7 @@ async function toggleDevice(userId, deviceId) {
 
         default:
             // simulated
-            result = { isOn: !device.isOn, wattage: simWattage(device.type, !device.isOn) };
+            result = { isOn: targetState, wattage: simWattage(device.type, targetState) };
     }
 
     device.isOn = result.isOn;
@@ -209,11 +268,14 @@ async function getDeviceStatus(userId, deviceId) {
     let status;
     if (device.protocol === 'shelly') {
         try { status = await shellyStatus(device); } catch { status = { isOn: device.isOn, wattage: device.wattage }; }
+    } else if (device.protocol === 'http' && device.statusUrl) {
+        try { status = await httpStatus(device); } catch { status = { isOn: device.isOn, wattage: device.wattage }; }
     } else {
         // For simulated/kasa/tuya — return stored state + slight wattage jitter
         status = { isOn: device.isOn, wattage: simWattage(device.type, device.isOn) };
     }
 
+    device.isOn = status.isOn;
     device.wattage = status.wattage;
     device.lastSeen = new Date().toISOString();
     return { ...device, ...status };
@@ -222,6 +284,7 @@ async function getDeviceStatus(userId, deviceId) {
 // Seed demo devices for the first demo user
 const DEMO_DEVICES = [
     { name: 'OnePlus TV', type: 'tv', protocol: 'androidtv', ip: '192.168.29.158', isOn: false },
+    { name: 'Hall Light', type: 'light', protocol: 'http', toggleUrl: 'http://10.52.93.21/toggle', statusUrl: 'http://10.52.93.21/state', isOn: false },
     { name: 'Bedroom AC', type: 'ac', protocol: 'simulated', isOn: false },
     { name: 'Ceiling Fan', type: 'fan', protocol: 'simulated', isOn: true },
     { name: 'Kitchen Light', type: 'light', protocol: 'simulated', isOn: true },
@@ -231,4 +294,4 @@ const DEMO_DEVICES = [
 
 DEMO_DEVICES.forEach(d => addDevice('USR000001', { ...d, wattage: simWattage(d.type, d.isOn) }));
 
-module.exports = { listDevices, addDevice, removeDevice, toggleDevice, getDeviceStatus, bus };
+module.exports = { listDevices, addDevice, removeDevice, toggleDevice, setDeviceState, getDeviceStatus, bus };

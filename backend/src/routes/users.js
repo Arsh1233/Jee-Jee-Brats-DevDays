@@ -4,9 +4,18 @@ const path = require('path');
 const fs = require('fs');
 const { usersByBP, usersByEmail } = require('../db/seedData');
 
-// Ensure avatars directory exists
-const AVATAR_DIR = path.join(__dirname, '..', '..', 'public', 'avatars');
-if (!fs.existsSync(AVATAR_DIR)) fs.mkdirSync(AVATAR_DIR, { recursive: true });
+// In Lambda (Netlify Functions / AWS), only /tmp is writable.
+// Use /tmp/avatars in production, public/avatars locally.
+const IS_SERVERLESS = !!(process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.NETLIFY);
+const AVATAR_DIR = IS_SERVERLESS
+    ? '/tmp/avatars'
+    : path.join(__dirname, '..', '..', 'public', 'avatars');
+
+try {
+    if (!fs.existsSync(AVATAR_DIR)) fs.mkdirSync(AVATAR_DIR, { recursive: true });
+} catch (e) {
+    console.warn('[Users] Could not create avatar dir:', e.message);
+}
 
 // Simple multipart parser for avatar uploads
 const multer = require('multer');

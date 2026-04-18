@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import BACKEND_URL from '../config';
 
-const API = '';
+const API = BACKEND_URL;
 
 export default function UserManagement() {
     const [users, setUsers] = useState([]);

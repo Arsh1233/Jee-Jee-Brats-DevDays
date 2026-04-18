@@ -116,8 +116,9 @@ export default function VoiceAssistantScreen() {
                 entities: result.entities,
             }]);
 
-            // ── Actually toggle the device if intent is control_device ──
-            if (result.intent === 'control_device' && result.entities?.appliances?.length > 0) {
+            // ── Device control is now handled by the backend (ai.js intercepts control_device intents) ──
+            // Only do a client-side toggle if the backend did NOT handle it (fallback)
+            if (result.intent === 'control_device' && result.entities?.appliances?.length > 0 && !result.data?.hardware_controlled) {
                 try {
                     const userId = await AsyncStorage.getItem('userId') ?? '';
                     const devices = await fetchDevices(userId);
@@ -281,8 +282,8 @@ export default function VoiceAssistantScreen() {
                             entities: result.entities,
                         }]);
 
-                        // Device toggle for control_device intent
-                        if (result.intent === 'control_device' && result.entities?.appliances?.length > 0) {
+                        // Device toggle — only if backend didn't already handle it
+                        if (result.intent === 'control_device' && result.entities?.appliances?.length > 0 && !result.data?.hardware_controlled) {
                             try {
                                 const userId = await AsyncStorage.getItem('userId') ?? '';
                                 const devices = await fetchDevices(userId);

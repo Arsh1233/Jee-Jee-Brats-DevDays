@@ -3,8 +3,9 @@ import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
     ResponsiveContainer, ReferenceLine, AreaChart, Area,
 } from 'recharts';
+import BACKEND_URL from '../config';
 
-const API = '';
+const API = BACKEND_URL;
 
 export default function Optimizer() {
     const [status, setStatus] = useState(null);

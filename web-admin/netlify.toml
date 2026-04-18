@@ -1,0 +1,9 @@
+[build]
+  publish = "dist"
+
+
+# SPA fallback — all routes return index.html (React Router handles client-side routing)
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200

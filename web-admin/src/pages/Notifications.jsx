@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import BACKEND_URL from '../config';
 
 const TYPE_CONFIG = {
     warning: { icon: '⚠️', bg: '#fff3e0', border: '#ffcc80' },
@@ -26,7 +27,7 @@ export default function NotificationsPage() {
     const [gnSending, setGnSending] = useState(false);
 
     const load = () =>
-        fetch('/api/notifications').then(r => r.json()).then(setNotifications).catch(console.error);
+        fetch(`${BACKEND_URL}/api/notifications`).then(r => r.json()).then(setNotifications).catch(console.error);
 
     useEffect(() => { load(); }, []);
 
@@ -34,7 +35,7 @@ export default function NotificationsPage() {
         if (!pcArea.trim() || !pcMessage.trim()) return;
         setSending(true);
         try {
-            await fetch('/api/notifications', {
+            await fetch(`${BACKEND_URL}/api/notifications`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -58,7 +59,7 @@ export default function NotificationsPage() {
         if (!gnTitle.trim() || !gnMessage.trim()) return;
         setGnSending(true);
         try {
-            await fetch('/api/notifications', {
+            await fetch(`${BACKEND_URL}/api/notifications`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title: gnTitle, message: gnMessage, type: gnType }),
@@ -72,7 +73,7 @@ export default function NotificationsPage() {
     const deleteNotif = async (id) => {
         setDeleting(id);
         try {
-            await fetch(`/api/notifications/${id}`, { method: 'DELETE' });
+            await fetch(`${BACKEND_URL}/api/notifications/${id}`, { method: 'DELETE' });
             load();
         } catch (e) { console.error(e); }
         finally { setDeleting(null); }

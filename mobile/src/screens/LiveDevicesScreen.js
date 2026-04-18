@@ -91,16 +91,18 @@ function AddDeviceModal({ visible, onClose, onSave }) {
     const [ip, setIp] = useState('');
     const [onUrl, setOnUrl] = useState('');
     const [offUrl, setOffUrl] = useState('');
+    const [toggleUrl, setToggleUrl] = useState('');
+    const [statusUrl, setStatusUrl] = useState('');
     const [deviceId, setDeviceId] = useState('');
     const [localKey, setLocalKey] = useState('');
 
     const proto = PROTOCOLS[protoIdx];
     const typeObj = DEVICE_TYPES[typeIdx];
 
-    const reset = () => { setName(''); setIp(''); setOnUrl(''); setOffUrl(''); setDeviceId(''); setLocalKey(''); };
+    const reset = () => { setName(''); setIp(''); setOnUrl(''); setOffUrl(''); setToggleUrl(''); setStatusUrl(''); setDeviceId(''); setLocalKey(''); };
     const save = () => {
         if (!name.trim()) { Alert.alert('Name required'); return; }
-        onSave({ name: name.trim(), type: typeObj.type, protocol: proto, ip: ip || null, onUrl: onUrl || null, offUrl: offUrl || null, deviceId: deviceId || null, localKey: localKey || null });
+        onSave({ name: name.trim(), type: typeObj.type, protocol: proto, ip: ip || null, onUrl: onUrl || null, offUrl: offUrl || null, toggleUrl: toggleUrl || null, statusUrl: statusUrl || null, deviceId: deviceId || null, localKey: localKey || null });
         reset();
     };
 
@@ -159,10 +161,21 @@ function AddDeviceModal({ visible, onClose, onSave }) {
                         )}
                         {proto === 'http' && (
                             <>
+                                <Text style={styles.label}>TOGGLE URL (ESP8266-STYLE)</Text>
+                                <TextInput style={styles.input} placeholder="http://192.168.x.x/toggle" placeholderTextColor={C.muted} value={toggleUrl} onChangeText={setToggleUrl} autoCapitalize="none" />
+                                <Text style={styles.label}>STATUS URL (OPTIONAL)</Text>
+                                <TextInput style={styles.input} placeholder="http://192.168.x.x/state" placeholderTextColor={C.muted} value={statusUrl} onChangeText={setStatusUrl} autoCapitalize="none" />
+                                <Text style={[styles.label, { color: C.muted, fontSize: 9, marginBottom: 14 }]}>― OR use separate ON / OFF URLs ―</Text>
                                 <Text style={styles.label}>TURN ON URL</Text>
                                 <TextInput style={styles.input} placeholder="http://192.168.x.x/on" placeholderTextColor={C.muted} value={onUrl} onChangeText={setOnUrl} autoCapitalize="none" />
                                 <Text style={styles.label}>TURN OFF URL</Text>
                                 <TextInput style={styles.input} placeholder="http://192.168.x.x/off" placeholderTextColor={C.muted} value={offUrl} onChangeText={setOffUrl} autoCapitalize="none" />
+                                <View style={[styles.hintBox, { backgroundColor: '#e8f5e9' }]}>
+                                    <Ionicons name="hardware-chip-outline" size={16} color="#2e7d32" />
+                                    <Text style={[styles.hintText, { color: '#1b5e20' }]}>
+                                        {'ESP8266/NodeMCU: Use the Toggle URL for single-endpoint devices.\nEnter your ESP\'s IP from Serial Monitor (e.g. 192.168.137.169)'}
+                                    </Text>
+                                </View>
                             </>
                         )}
 

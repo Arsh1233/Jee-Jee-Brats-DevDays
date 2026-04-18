@@ -27,7 +27,7 @@ INTENT_KEYWORDS: dict[str, list[tuple[str, float]]] = {
     ],
     "control_device": [
         ("turn on", 1.0), ("turn off", 1.0), ("switch on", 1.0), ("switch off", 1.0),
-        ("start", 0.6), ("stop", 0.6), ("activate", 0.8), ("deactivate", 0.8),
+        ("toggle", 0.9), ("start", 0.6), ("stop", 0.6), ("activate", 0.8), ("deactivate", 0.8),
         ("enable", 0.7), ("disable", 0.7), ("set", 0.4), ("temperature", 0.5),
     ],
     "get_tips": [
@@ -78,7 +78,7 @@ APPLIANCE_ALIASES = {
     "kitchen light": "lights",
     "bedroom light": "lights",
     "bathroom light": "lights",
-    "hall light": "lights",
+    "hall light": "hall light",
     "tube light": "lights",
     "tubelight": "lights",
     "fridge": "refrigerator",
@@ -146,6 +146,8 @@ def extract_entities(text: str) -> dict:
         entities["action"] = "off"
     elif re.search(r'\b(turn\s*on|switch\s*on|activate|enable|start)\b', lower):
         entities["action"] = "on"
+    elif re.search(r'\b(toggle)\b', lower):
+        entities["action"] = "toggle"
 
     return entities
 

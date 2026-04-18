@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import BACKEND_URL from '../config';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
     PieChart, Pie, Cell,
@@ -52,7 +53,7 @@ export default function Dashboard() {
 
     const load = useCallback(async () => {
         try {
-            const data = await fetch('/api/admin/dashboard').then(r => r.json());
+            const data = await fetch(`${BACKEND_URL}/api/admin/dashboard`).then(r => r.json());
             setStats(data);
         } catch (e) { console.error(e); }
         finally { setLoading(false); }
@@ -65,7 +66,7 @@ export default function Dashboard() {
     }, [load]);
 
     useEffect(() => {
-        fetch('/api/health').then(r => r.json()).then(setHealth).catch(() => {});
+        fetch(`${BACKEND_URL}/api/health`).then(r => r.json()).then(setHealth).catch(() => {});
     }, []);
 
     if (loading) return (
@@ -247,7 +248,7 @@ export default function Dashboard() {
                 <h3 style={{ color: '#1a2332', margin: '0 0 16px', fontSize: 15, fontWeight: 700 }}>⚡ Quick Actions</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 10 }}>
                     {[
-                        { icon: '🤖', label: 'Run Optimizer', color: '#1976d2', action: () => fetch('/api/optimizer/run', { method: 'POST' }) },
+                        { icon: '🤖', label: 'Run Optimizer', color: '#1976d2', action: () => fetch(`${BACKEND_URL}/api/optimizer/run`, { method: 'POST' }) },
                         { icon: '🔔', label: 'Send Notification', color: '#e65100', href: '#/notifications' },
                         { icon: '📋', label: 'View Complaints', color: '#7b1fa2', href: '#/complaints' },
                         { icon: '👥', label: 'Manage Users', color: '#00838f', href: '#/users' },

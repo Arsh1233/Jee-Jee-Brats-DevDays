@@ -216,9 +216,14 @@ function runAutonomousOptimizer() {
     console.log(`[AI Optimizer] Run #${autonomousStats.runsCompleted} — ${autoUsers.length} users optimized, ₹${savings.toFixed(0)} potential savings`);
 }
 
-// Run immediately then every 5 minutes
-runAutonomousOptimizer();
-setInterval(runAutonomousOptimizer, 5 * 60 * 1000);
+// Run immediately then every 5 minutes — but ONLY in a long-lived server process.
+// In serverless environments (Netlify Functions / AWS Lambda), skip these timers
+// to avoid cold-start timeouts.
+const IS_SERVERLESS = !!(process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.NETLIFY);
+if (!IS_SERVERLESS) {
+    runAutonomousOptimizer();
+    setInterval(runAutonomousOptimizer, 5 * 60 * 1000);
+}
 
 function getAutonomousStatus() { return { ...autonomousStats }; }
 

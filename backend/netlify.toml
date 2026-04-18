@@ -1,0 +1,18 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = [
+    "tplink-smarthome-api",
+    "tuyapi",
+    "@devicefarmer/adbkit",
+    "pg"
+  ]
+
+# Route all /api/* requests to the serverless function
+[[redirects]]
+  from   = "/api/*"
+  to     = "/.netlify/functions/api/:splat"
+  status = 200

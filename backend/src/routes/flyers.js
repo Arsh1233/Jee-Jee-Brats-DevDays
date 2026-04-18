@@ -6,8 +6,15 @@ const fs = require('fs');
 const { load, save } = require('../services/persist');
 
 // ── Multer storage ───────────────────────────────────────────────
-const uploadsDir = path.join(__dirname, '../../uploads');
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+const IS_SERVERLESS = !!(process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.NETLIFY);
+const uploadsDir = IS_SERVERLESS
+    ? '/tmp/uploads'
+    : path.join(__dirname, '../../uploads');
+try {
+    if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+} catch (e) {
+    console.warn('[Flyers] Could not create uploads dir:', e.message);
+}
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, uploadsDir),

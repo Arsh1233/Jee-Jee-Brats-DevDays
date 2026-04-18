@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import BACKEND_URL from '../config';
 
 const STATUS_OPTS = ['Pending', 'In Progress', 'Resolved', 'Closed'];
 
@@ -26,7 +27,7 @@ export default function Complaints() {
     const [adminNotes, setAdminNotes] = useState({});
 
     const load = () => {
-        fetch(`/api/complaints/all${statusFilter !== 'all' ? `?status=${statusFilter}` : ''}`)
+        fetch(`${BACKEND_URL}/api/complaints/all${statusFilter !== 'all' ? `?status=${statusFilter}` : ''}`)
             .then(r => r.json())
             .then(d => { setComplaints(Array.isArray(d) ? d : []); setLoading(false); })
             .catch(() => setLoading(false));
@@ -43,7 +44,7 @@ export default function Complaints() {
     const updateStatus = async (id, status) => {
         setUpdatingId(id);
         try {
-            await fetch(`/api/complaints/${id}`, {
+            await fetch(`${BACKEND_URL}/api/complaints/${id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status, adminNote: adminNotes[id] }),

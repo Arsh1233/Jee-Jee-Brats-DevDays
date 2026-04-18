@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import BACKEND_URL from './config';
 import { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Dashboard';
@@ -39,7 +40,7 @@ function TopBar() {
 
     useEffect(() => {
         const fetchHealth = () =>
-            fetch('/api/health').then(r => r.json()).then(setHealth).catch(() => setHealth(null));
+            fetch(`${BACKEND_URL}/api/health`).then(r => r.json()).then(setHealth).catch(() => setHealth(null));
         fetchHealth();
         const t = setInterval(fetchHealth, 15000);
         return () => clearInterval(t);
@@ -80,7 +81,7 @@ function TopBar() {
 
 export default function App() {
     return (
-        <BrowserRouter basename="/admin">
+        <BrowserRouter basename="/">
             <div className="app-layout">
                 <Sidebar />
                 <TopBar />
